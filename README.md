@@ -1,1 +1,53 @@
 # Ycoa-site
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유창OA 원격 지원</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        .container { max-width: 500px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+        button { background-color: #28a745; color: white; border: none; padding: 10px; width: 100%; cursor: pointer; }
+        button:hover { background-color: #218838; }
+        .request-list { margin-top: 20px; }
+        .request-item { border: 1px solid #ddd; padding: 10px; margin: 10px 0; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>유창OA 원격 지원 요청</h2>
+        <input type="text" id="anydeskId" placeholder="AnyDesk 주소 입력">
+        <textarea id="issue" placeholder="문제 설명"></textarea>
+        <button onclick="submitRequest()">요청 제출</button>
+    </div>
+    
+    <div class="container request-list">
+        <h3>요청 목록</h3>
+        <div id="requests"></div>
+    </div>
+    
+    <script>
+        function submitRequest() {
+            const id = document.getElementById('anydeskId').value;
+            const issue = document.getElementById('issue').value;
+            if (!id || !issue) { alert('모든 정보를 입력하세요.'); return; }
+            
+            const requestList = document.getElementById('requests');
+            const requestItem = document.createElement('div');
+            requestItem.className = 'request-item';
+            requestItem.innerHTML = `<strong>AnyDesk ID:</strong> ${id}<br><strong>문제:</strong> ${issue}<br>
+                <button onclick='connectToAnyDesk("${id}")'>연결</button>`;
+            requestList.appendChild(requestItem);
+            
+            document.getElementById('anydeskId').value = '';
+            document.getElementById('issue').value = '';
+        }
+        
+        function connectToAnyDesk(id) {
+            window.open(`anydesk:${id}`, '_blank');
+        }
+    </script>
+</body>
+</html>
